@@ -1,4 +1,15 @@
-function ClientList({ clients }) {
+import { useEffect, useState } from "react";
+
+function ClientList() {
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_API_URL}/clients`)
+      .then((res) => res.json())
+      .then((data) => setClients(data))
+      .catch((err) => console.error(err));
+  }, []);
+
   return (
     <div>
       <h2>Clients</h2>

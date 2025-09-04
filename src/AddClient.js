@@ -11,16 +11,25 @@ function AddClient({ onClientAdded }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const newClient = { name, contact, capacity, powerBill, status, approved, date: new Date() };
+    const newClient = {
+      name,
+      contact,
+      capacity,
+      powerBill,
+      status,
+      approved,
+      date: new Date(),
+    };
 
-    fetch("http://localhost:5000/clients", {
+    // Use environment variable for backend URL
+    fetch(`${process.env.REACT_APP_API_URL}/clients`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newClient),
     })
       .then((res) => res.json())
       .then((data) => {
-        onClientAdded(data); // Update table
+        onClientAdded(data); // Update table in App.js
         // Clear form
         setName("");
         setContact("");
@@ -35,10 +44,34 @@ function AddClient({ onClientAdded }) {
   return (
     <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
       <h2>Add New Client</h2>
-      <input type="text" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} required />
-      <input type="text" placeholder="Contact" value={contact} onChange={(e) => setContact(e.target.value)} required />
-      <input type="number" placeholder="Capacity" value={capacity} onChange={(e) => setCapacity(e.target.value)} required />
-      <input type="number" placeholder="Power Bill" value={powerBill} onChange={(e) => setPowerBill(e.target.value)} required />
+      <input
+        type="text"
+        placeholder="Name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
+      <input
+        type="text"
+        placeholder="Contact"
+        value={contact}
+        onChange={(e) => setContact(e.target.value)}
+        required
+      />
+      <input
+        type="number"
+        placeholder="Capacity"
+        value={capacity}
+        onChange={(e) => setCapacity(e.target.value)}
+        required
+      />
+      <input
+        type="number"
+        placeholder="Power Bill"
+        value={powerBill}
+        onChange={(e) => setPowerBill(e.target.value)}
+        required
+      />
       <select value={status} onChange={(e) => setStatus(e.target.value)}>
         <option>Active</option>
         <option>Inactive</option>
